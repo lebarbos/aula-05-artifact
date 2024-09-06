@@ -49,8 +49,13 @@ jobs:
       with:
         name: linux
 
+    - name: Make run.sh executable
+      run: chmod +x ./run.sh
+
     - name: Run script
-      run: source ./run.sh
+      run: |
+        ls -la ./linux # Verificar o conteúdo do diretório onde o artefato foi baixado
+        source ./run.sh
 
   download-only-windows:
     name: Download Windows

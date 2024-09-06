@@ -55,13 +55,10 @@ jobs:
     - name: Make hello-server executable
       run: chmod +x ./hello-server # Diretamente no arquivo baixado
 
-    - name: Run hello-server in background
-      run: |
-        ./hello-server & # Executar o servidor em segundo plano
-        sleep 10         # Simular algum tempo de execução
-
     - name: Run script
-      run: source ./run.sh
+      run: |
+        ./hello-server # Rodar o executável gerado
+        source ./run.sh # Se houver dependência com o run.sh, pode ser executado após
 
   download-only-windows:
     name: Download Windows

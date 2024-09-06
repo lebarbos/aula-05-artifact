@@ -52,11 +52,14 @@ jobs:
       with:
         name: linux
 
-    - name: List files in directory
-      run: ls -R
+    - name: List files in the working directory
+      run: ls -R /home/runner/work/aula-05-artifact/aula-05-artifact
+
+    - name: Grant permissions to the binary
+      run: chmod +x /home/runner/work/aula-05-artifact/aula-05-artifact/hello-server
 
     - name: Run script
-      run: source ./run.sh
+      run: source /home/runner/work/aula-05-artifact/aula-05-artifact/run.sh
 
   download-only-windows:
     name: Download Windows

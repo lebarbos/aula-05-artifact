@@ -15,50 +15,24 @@ jobs:
     name: Build Go
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Go code
-        uses: actions/checkout@v2
 
-      - name: Build ${{ env.FILE_NAME }} for ubuntu-latest
-        run: go build ${{ env.FILE_NAME }}.go
+    - name: Checkout Go code
+      uses: actions/checkout@v2
 
-      - name: Build ${{ env.FILE_NAME }} for windows-latest
-        run: GOOS=windows GOARCH=amd64 go build ${{ env.FILE_NAME }}.go
+    - name: Build ${{ env.FILE_NAME }} for ubuntu-latest
+      run: go build ${{ env.FILE_NAME }}.go
 
-      - name: Upload artifact for linux
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: linux
-          path: ./${{ env.FILE_NAME }}
+    - name: Build ${{ env.FILE_NAME }} for windows-latest
+      run: GOOS=windows GOARCH=amd64 go build ${{ env.FILE_NAME }}.go
+      
+    - name: Upload artifact for linux
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: linux
+        path: ./${{ env.FILE_NAME }}
 
-      - name: Upload artifact for Windows
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: windows
-          path: ./${{ env.FILE_NAME }}.exe
-
-  download-and-run-linux:
-    name: Download and run Linux
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Download Linux artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: linux
-
-      - name: Run script options
-        run: source ./run.sh
-
-  download-only-windows:
-    name: Download Windows
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Download Windows artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: windows
+    - name: Upload artifact for Windows
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: windows
+        path: ./${{ env.FILE_NAME }}.exe

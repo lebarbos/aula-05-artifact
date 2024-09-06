@@ -52,8 +52,8 @@ jobs:
     - name: List files in the working directory
       run: ls -la # Verificar o conteúdo do diretório atual para ver onde o artefato foi baixado
 
-    - name: Make run.sh executable
-      run: chmod +x ./run.sh
+    - name: Make hello-server executable
+      run: chmod +x ./hello-server # Diretamente no arquivo baixado
 
     - name: Run script
       run: source ./run.sh

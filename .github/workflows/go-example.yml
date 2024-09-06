@@ -1,45 +1,38 @@
-name: CI/CD Impacta
-run-name: "Action iniciada por @${{ github.actor }} na branch ${{github.ref_name}}"
+name: artifact
 
 on:
   push:
-    branches: ["dev"]
-  pull_request:
-      branches: [ "main" ]
-  workflow_dispatch:
+    branches:
+      - main
+  schedule:
+    - cron: "*/15 0-23 * * 1-6" # A cada 15 minutos, de segunda a sábado
 
 env:
-  FILE_NAME: ${{vars.FILE_NAME}}
+  FILE_NAME: hello-server
 
 jobs:
-  download-and-run-linux:
+  build-go:
+    name: Build Go
     runs-on: ubuntu-latest
     steps:
-      - name: "Step: Cloning repository..."
-        uses: actions/checkout@v4
 
-      - name: "Set up Go"
-        uses: ./.github/actions/build_go
-        with:
-          vars: ${{env.FILE_NAME}}
+    - name: Checkout Go code
+      uses: actions/checkout@v4
 
-      - name: "Upload Artifact..."
-        uses: ./.github/actions/artifactUpload
-        with:
-          vars: ${{env.FILE_NAME}}
+    - name: Build ${{ env.FILE_NAME }} for ubuntu-latest
+      run: go build ${{ env.FILE_NAME }}.go
 
-  download-only-windows:
-    runs-on: windows-latest
-    steps:
-      - name: "Step: Cloning repository..."
-        uses: actions/checkout@v4
+    - name: Build ${{ env.FILE_NAME }} for windows-latest
+      run: GOOS=windows GOARCH=amd64 go build ${{ env.FILE_NAME }}.go
+      
+    - name: Upload artifact for linux
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux
+        path: ./${{ env.FILE_NAME }}
 
-      - name: "Set up Go"
-        uses: ./.github/actions/build_go
-        with:
-          vars: ${{env.FILE_NAME}}
-
-      - name: "Upload Artifact..."
-        uses: ./.github/actions/artifactUpload
-        with:
-          vars: ${{env.FILE_NAME}}
+    - name: Upload artifact for Windows
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows
+        path: ./${{ env.FILE_NAME }}.exe

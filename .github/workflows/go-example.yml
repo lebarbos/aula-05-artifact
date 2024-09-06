@@ -50,13 +50,15 @@ jobs:
         name: linux
 
     - name: List files in the working directory
-      run: ls -la # Verificar o conteúdo do diretório atual para ver onde o artefato foi baixado
+      run: ls -la # Verificar o conteúdo do diretório atual
 
     - name: Make hello-server executable
       run: chmod +x ./hello-server # Diretamente no arquivo baixado
 
     - name: Run script
-      run: source ./run.sh
+      run: |
+        ./hello-server # Rodar o executável gerado
+        source ./run.sh # Se houver dependência com o run.sh, pode ser executado após
 
   download-only-windows:
     name: Download Windows

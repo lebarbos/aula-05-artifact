@@ -49,13 +49,14 @@ jobs:
       with:
         name: linux
 
+    - name: List files in the working directory
+      run: ls -la # Verificar o conteúdo do diretório atual para ver onde o artefato foi baixado
+
     - name: Make run.sh executable
       run: chmod +x ./run.sh
 
     - name: Run script
-      run: |
-        ls -la ./linux # Verificar o conteúdo do diretório onde o artefato foi baixado
-        source ./run.sh
+      run: source ./run.sh
 
   download-only-windows:
     name: Download Windows

@@ -36,3 +36,29 @@ jobs:
       with:
         name: windows
         path: ./${{ env.FILE_NAME }}.exe
+
+  download-and-run-linux:
+    name: Download and run Linux
+    runs-on: ubuntu-latest
+    needs: build-go
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Download linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: linux
+      - name: Execute run.sh
+        run: source ./run.sh
+
+  download-only-windows:
+    name: Download Windows
+    runs-on: windows-latest
+    needs: build-go
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Download windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows

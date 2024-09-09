@@ -5,8 +5,7 @@ on:
     branches:
       - main
   #schedule:
-  #  - cron: "*/15 0-23 * * 1-6"  # A cada 15 minutos, de segunda a sábado
-
+  #  - cron: "*/15 0-23 * * 1-6"  # A cada 15 minutos, de segunda a sábado  - Comentado para evitar execução desnecessária.
 env:
   FILE_NAME: hello-server
 
